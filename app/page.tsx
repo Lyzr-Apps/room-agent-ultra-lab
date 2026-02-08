@@ -15,7 +15,8 @@ import {
   FiX,
   FiLoader,
   FiHome,
-  FiMessageSquare
+  FiMessageSquare,
+  FiSliders
 } from 'react-icons/fi'
 
 // TypeScript interfaces from actual agent response
@@ -58,6 +59,28 @@ const QUICK_PROMPTS = [
   'Lighting suggestions'
 ]
 
+const COLOR_SCHEMES = [
+  { name: 'Neutral Elegance', colors: ['White', 'Beige', 'Light Gray', 'Cream'] },
+  { name: 'Warm & Cozy', colors: ['Terracotta', 'Warm Brown', 'Golden Yellow', 'Burnt Orange'] },
+  { name: 'Cool & Calm', colors: ['Soft Blue', 'Sage Green', 'Light Gray', 'White'] },
+  { name: 'Bold & Modern', colors: ['Charcoal Gray', 'Deep Navy', 'Mustard Yellow', 'White'] },
+  { name: 'Earthy & Natural', colors: ['Olive Green', 'Tan', 'Clay', 'Ivory'] },
+  { name: 'Pastel Dreams', colors: ['Blush Pink', 'Mint Green', 'Lavender', 'Cream'] },
+]
+
+const DESIGN_STYLES = [
+  { name: 'Modern Minimalist', description: 'Clean lines, neutral colors, functional furniture' },
+  { name: 'Scandinavian', description: 'Light woods, white walls, cozy textiles, natural light' },
+  { name: 'Industrial', description: 'Exposed brick, metal accents, reclaimed wood, concrete' },
+  { name: 'Bohemian', description: 'Eclectic mix, vibrant colors, plants, textured fabrics' },
+  { name: 'Mid-Century Modern', description: 'Iconic furniture, bold colors, geometric patterns' },
+  { name: 'Farmhouse', description: 'Rustic wood, vintage pieces, soft neutrals, shiplap' },
+  { name: 'Contemporary', description: 'Current trends, mixed materials, bold accents' },
+  { name: 'Traditional', description: 'Classic furniture, rich colors, ornate details' },
+  { name: 'Coastal', description: 'Light blues, whites, natural textures, airy feel' },
+  { name: 'Art Deco', description: 'Luxurious materials, geometric patterns, bold colors' },
+]
+
 export default function Home() {
   const [sessions, setSessions] = useState<ChatSession[]>([])
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null)
@@ -68,6 +91,9 @@ export default function Home() {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [editedTitle, setEditedTitle] = useState('')
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [showPreferences, setShowPreferences] = useState(false)
+  const [selectedColorScheme, setSelectedColorScheme] = useState<string | null>(null)
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Load sessions from localStorage on mount
@@ -157,6 +183,26 @@ export default function Home() {
     if (lower.includes('dining')) return 'Dining Room'
     if (lower.includes('office')) return 'Office'
     return 'General'
+  }
+
+  const applyPreferences = () => {
+    let preferencesText = ''
+    if (selectedColorScheme) {
+      const scheme = COLOR_SCHEMES.find(s => s.name === selectedColorScheme)
+      if (scheme) {
+        preferencesText += `I prefer a ${scheme.name} color scheme with colors like ${scheme.colors.join(', ')}. `
+      }
+    }
+    if (selectedStyle) {
+      const style = DESIGN_STYLES.find(s => s.name === selectedStyle)
+      if (style) {
+        preferencesText += `I want a ${style.name} style design. `
+      }
+    }
+    if (preferencesText) {
+      setInputValue(preferencesText)
+      setShowPreferences(false)
+    }
   }
 
   const sendMessage = async (content: string) => {
@@ -449,13 +495,117 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <div className="px-3 py-1 rounded-full text-sm font-medium" style={{
-                backgroundColor: 'hsl(40 25% 90%)',
-                color: 'hsl(30 25% 22%)'
-              }}>
-                {currentSession.roomType}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowPreferences(!showPreferences)}
+                  className="p-2 hover:bg-opacity-80 rounded"
+                  style={{
+                    color: showPreferences ? 'hsl(25 55% 40%)' : 'hsl(30 25% 18%)',
+                    backgroundColor: showPreferences ? 'hsl(40 25% 90%)' : 'transparent'
+                  }}
+                  title="Design Preferences"
+                >
+                  <FiSliders size={20} />
+                </button>
+                <div className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                  backgroundColor: 'hsl(40 25% 90%)',
+                  color: 'hsl(30 25% 22%)'
+                }}>
+                  {currentSession.roomType}
+                </div>
               </div>
             </div>
+
+            {/* Preferences Panel */}
+            {showPreferences && (
+              <div className="border-b p-4" style={{
+                backgroundColor: 'hsl(40 35% 98%)',
+                borderColor: 'hsl(35 25% 82%)'
+              }}>
+                <div className="max-w-4xl mx-auto space-y-4">
+                  {/* Color Schemes */}
+                  <div>
+                    <h3 className="text-sm font-semibold mb-2" style={{ color: 'hsl(25 55% 40%)' }}>
+                      Color Schemes
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                      {COLOR_SCHEMES.map((scheme) => (
+                        <button
+                          key={scheme.name}
+                          onClick={() => setSelectedColorScheme(selectedColorScheme === scheme.name ? null : scheme.name)}
+                          className="p-3 rounded-lg text-left transition-all"
+                          style={{
+                            backgroundColor: selectedColorScheme === scheme.name ? 'hsl(25 55% 40%)' : 'hsl(40 40% 99%)',
+                            color: selectedColorScheme === scheme.name ? 'hsl(40 30% 98%)' : 'hsl(30 25% 18%)',
+                            border: '1px solid',
+                            borderColor: selectedColorScheme === scheme.name ? 'hsl(25 55% 40%)' : 'hsl(35 25% 82%)'
+                          }}
+                        >
+                          <div className="font-semibold text-sm mb-1">{scheme.name}</div>
+                          <div className="text-xs opacity-80">{scheme.colors.join(', ')}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Design Styles */}
+                  <div>
+                    <h3 className="text-sm font-semibold mb-2" style={{ color: 'hsl(25 55% 40%)' }}>
+                      Design Styles
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+                      {DESIGN_STYLES.map((style) => (
+                        <button
+                          key={style.name}
+                          onClick={() => setSelectedStyle(selectedStyle === style.name ? null : style.name)}
+                          className="p-3 rounded-lg text-left transition-all"
+                          style={{
+                            backgroundColor: selectedStyle === style.name ? 'hsl(25 55% 40%)' : 'hsl(40 40% 99%)',
+                            color: selectedStyle === style.name ? 'hsl(40 30% 98%)' : 'hsl(30 25% 18%)',
+                            border: '1px solid',
+                            borderColor: selectedStyle === style.name ? 'hsl(25 55% 40%)' : 'hsl(35 25% 82%)'
+                          }}
+                          title={style.description}
+                        >
+                          <div className="font-semibold text-sm">{style.name}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Apply Button */}
+                  {(selectedColorScheme || selectedStyle) && (
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        onClick={() => {
+                          setSelectedColorScheme(null)
+                          setSelectedStyle(null)
+                        }}
+                        variant="outline"
+                        className="text-sm"
+                        style={{
+                          borderColor: 'hsl(35 25% 82%)',
+                          color: 'hsl(30 25% 18%)'
+                        }}
+                      >
+                        Clear
+                      </Button>
+                      <Button
+                        onClick={applyPreferences}
+                        className="text-sm"
+                        style={{
+                          backgroundColor: 'hsl(25 55% 40%)',
+                          color: 'hsl(40 30% 98%)',
+                          borderRadius: '0.5rem'
+                        }}
+                      >
+                        Apply Preferences
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
