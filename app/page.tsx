@@ -16,7 +16,10 @@ import {
   FiLoader,
   FiHome,
   FiMessageSquare,
-  FiSliders
+  FiSliders,
+  FiShoppingCart,
+  FiExternalLink,
+  FiPackage
 } from 'react-icons/fi'
 
 // TypeScript interfaces from actual agent response
@@ -81,6 +84,57 @@ const DESIGN_STYLES = [
   { name: 'Art Deco', description: 'Luxurious materials, geometric patterns, bold colors' },
 ]
 
+const SHOPPING_PARTNERS = [
+  {
+    name: 'IKEA',
+    url: 'https://www.ikea.com/us/en/search/products/?q=',
+    category: 'Furniture & Decor',
+    description: 'Affordable modern furniture and home accessories'
+  },
+  {
+    name: 'Wayfair',
+    url: 'https://www.wayfair.com/keyword.php?keyword=',
+    category: 'Furniture & Decor',
+    description: 'Wide selection of furniture for every style'
+  },
+  {
+    name: 'West Elm',
+    url: 'https://www.westelm.com/search/results.html?words=',
+    category: 'Furniture & Decor',
+    description: 'Modern furniture and home decor'
+  },
+  {
+    name: 'Target',
+    url: 'https://www.target.com/s?searchTerm=',
+    category: 'Home Decor',
+    description: 'Budget-friendly furniture and decor'
+  },
+  {
+    name: 'CB2',
+    url: 'https://www.cb2.com/search?query=',
+    category: 'Furniture',
+    description: 'Contemporary furniture and decor'
+  },
+  {
+    name: 'Amazon Home',
+    url: 'https://www.amazon.com/s?k=',
+    category: 'Everything',
+    description: 'Vast selection with fast shipping'
+  },
+  {
+    name: 'Article',
+    url: 'https://www.article.com/search?q=',
+    category: 'Furniture',
+    description: 'Mid-century modern furniture'
+  },
+  {
+    name: 'Home Depot',
+    url: 'https://www.homedepot.com/s/',
+    category: 'Hardware & Decor',
+    description: 'Home improvement and decor items'
+  },
+]
+
 export default function Home() {
   const [sessions, setSessions] = useState<ChatSession[]>([])
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null)
@@ -94,6 +148,8 @@ export default function Home() {
   const [showPreferences, setShowPreferences] = useState(false)
   const [selectedColorScheme, setSelectedColorScheme] = useState<string | null>(null)
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null)
+  const [showShoppingPanel, setShowShoppingPanel] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Load sessions from localStorage on mount
@@ -203,6 +259,16 @@ export default function Home() {
       setInputValue(preferencesText)
       setShowPreferences(false)
     }
+  }
+
+  const openShoppingPanel = (item: string) => {
+    setSelectedItem(item)
+    setShowShoppingPanel(true)
+  }
+
+  const searchInShop = (shopUrl: string, item: string) => {
+    const searchTerm = encodeURIComponent(item)
+    window.open(shopUrl + searchTerm, '_blank')
   }
 
   const sendMessage = async (content: string) => {
@@ -658,12 +724,26 @@ export default function Home() {
 
                         {message.result.design_recommendations.furniture_suggestions && message.result.design_recommendations.furniture_suggestions.length > 0 && (
                           <div className="p-3 rounded" style={{ backgroundColor: 'hsl(40 20% 88%)' }}>
-                            <h4 className="font-semibold mb-2 text-sm" style={{ color: 'hsl(25 55% 40%)' }}>
-                              Furniture Suggestions
+                            <h4 className="font-semibold mb-2 text-sm flex items-center justify-between" style={{ color: 'hsl(25 55% 40%)' }}>
+                              <span>Furniture Suggestions</span>
+                              <FiPackage size={16} />
                             </h4>
-                            <ul className="space-y-1">
+                            <ul className="space-y-2">
                               {message.result.design_recommendations.furniture_suggestions.map((item, idx) => (
-                                <li key={idx} className="text-sm">• {item}</li>
+                                <li key={idx} className="text-sm flex items-center justify-between group">
+                                  <span>• {item}</span>
+                                  <button
+                                    onClick={() => openShoppingPanel(item)}
+                                    className="ml-2 p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                                    style={{
+                                      color: 'hsl(25 55% 40%)',
+                                      backgroundColor: 'hsl(40 40% 99%)'
+                                    }}
+                                    title="Shop for this item"
+                                  >
+                                    <FiShoppingCart size={14} />
+                                  </button>
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -684,12 +764,26 @@ export default function Home() {
 
                         {message.result.design_recommendations.decor_items && message.result.design_recommendations.decor_items.length > 0 && (
                           <div className="p-3 rounded" style={{ backgroundColor: 'hsl(40 20% 88%)' }}>
-                            <h4 className="font-semibold mb-2 text-sm" style={{ color: 'hsl(25 55% 40%)' }}>
-                              Decor Items
+                            <h4 className="font-semibold mb-2 text-sm flex items-center justify-between" style={{ color: 'hsl(25 55% 40%)' }}>
+                              <span>Decor Items</span>
+                              <FiPackage size={16} />
                             </h4>
-                            <ul className="space-y-1">
+                            <ul className="space-y-2">
                               {message.result.design_recommendations.decor_items.map((item, idx) => (
-                                <li key={idx} className="text-sm">• {item}</li>
+                                <li key={idx} className="text-sm flex items-center justify-between group">
+                                  <span>• {item}</span>
+                                  <button
+                                    onClick={() => openShoppingPanel(item)}
+                                    className="ml-2 p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                                    style={{
+                                      color: 'hsl(25 55% 40%)',
+                                      backgroundColor: 'hsl(40 40% 99%)'
+                                    }}
+                                    title="Shop for this item"
+                                  >
+                                    <FiShoppingCart size={14} />
+                                  </button>
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -850,6 +944,94 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Shopping Panel Modal */}
+      {showShoppingPanel && selectedItem && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowShoppingPanel(false)}
+        >
+          <div
+            className="max-w-2xl w-full rounded-lg shadow-xl max-h-[80vh] overflow-y-auto"
+            style={{
+              backgroundColor: 'hsl(40 35% 98%)',
+              borderColor: 'hsl(35 25% 82%)',
+              border: '1px solid'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h2 className="text-2xl font-bold mb-1" style={{
+                    fontFamily: 'Merriweather, Georgia, serif',
+                    color: 'hsl(25 55% 40%)'
+                  }}>
+                    Shop for Item
+                  </h2>
+                  <p className="text-sm" style={{ color: 'hsl(30 15% 45%)' }}>
+                    {selectedItem}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowShoppingPanel(false)}
+                  className="p-2 hover:bg-opacity-80 rounded"
+                  style={{ color: 'hsl(30 25% 18%)' }}
+                >
+                  <FiX size={24} />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold mb-3" style={{ color: 'hsl(25 55% 40%)' }}>
+                  Available at these shops:
+                </h3>
+                {SHOPPING_PARTNERS.map((shop, idx) => (
+                  <Card
+                    key={idx}
+                    className="cursor-pointer transition-all hover:shadow-md"
+                    onClick={() => searchInShop(shop.url, selectedItem)}
+                    style={{
+                      backgroundColor: 'hsl(40 40% 99%)',
+                      borderColor: 'hsl(35 25% 82%)',
+                      borderRadius: '0.5rem',
+                      borderWidth: '1px'
+                    }}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <FiShoppingCart size={16} style={{ color: 'hsl(25 55% 40%)' }} />
+                            <h4 className="font-semibold">{shop.name}</h4>
+                          </div>
+                          <p className="text-xs mb-1" style={{ color: 'hsl(30 15% 45%)' }}>
+                            {shop.category}
+                          </p>
+                          <p className="text-sm" style={{ color: 'hsl(30 25% 18%)' }}>
+                            {shop.description}
+                          </p>
+                        </div>
+                        <FiExternalLink size={16} style={{ color: 'hsl(25 55% 40%)' }} />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <div className="mt-6 p-3 rounded" style={{
+                backgroundColor: 'hsl(40 20% 88%)',
+                border: '1px solid hsl(35 25% 82%)'
+              }}>
+                <p className="text-xs" style={{ color: 'hsl(30 15% 45%)' }}>
+                  Clicking on a shop will open their website in a new tab with a search for "{selectedItem}".
+                  RoomCraft AI is not affiliated with these retailers.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
