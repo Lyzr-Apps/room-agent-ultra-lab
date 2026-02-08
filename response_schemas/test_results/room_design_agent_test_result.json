@@ -1,0 +1,44 @@
+{
+  "agent_name": "Room Design Agent",
+  "agent_id": "698836b220be1079ff146ee8",
+  "test_message": "I have a 12x14 living room that feels dark and cramped. I prefer modern minimalist style with a budget under $2000.",
+  "expected_purpose": "assistant",
+  "timestamp": "2026-02-08T07:10:40.321677",
+  "is_valid_json": true,
+  "validation_errors": [],
+  "actual_response": {
+    "status": "success",
+    "result": {
+      "message": "Great! Let's transform your living room into a bright and open modern minimalist space.",
+      "design_recommendations": {
+        "color_palette": [
+          "White",
+          "Light Gray",
+          "Pale Blue"
+        ],
+        "furniture_suggestions": [
+          "Low-profile sofa",
+          "Glass coffee table"
+        ],
+        "layout_tips": [
+          "Place sofa against the longest wall to open up space",
+          "Use a large mirror to reflect light and create depth"
+        ],
+        "decor_items": [
+          "Geometric rug",
+          "Wall-mounted shelves"
+        ],
+        "key_principles": [
+          "Simplicity and functionality",
+          "Use of light to enhance space"
+        ]
+      },
+      "next_steps": "Could you share more about the lighting conditions in the room (natural light, type and number of windows)? Also, let me know about any existing furniture you might want to incorporate."
+    },
+    "metadata": {
+      "agent_name": "Room Design Agent",
+      "timestamp": "2023-11-04T12:00:00Z"
+    }
+  },
+  "raw_response": "{\n  \"status\": \"success\",\n  \"result\": {\n    \"message\": \"Great! Let's transform your living room into a bright and open modern minimalist space.\",\n    \"design_recommendations\": {\n      \"color_palette\": [\"White\", \"Light Gray\", \"Pale Blue\"],\n      \"furniture_suggestions\": [\"Low-profile sofa\", \"Glass coffee table\"],\n      \"layout_tips\": [\"Place sofa against the longest wall to open up space\", \"Use a large mirror to reflect light and create depth\"],\n      \"decor_items\": [\"Geometric rug\", \"Wall-mounted shelves\"],\n      \"key_principles\": [\"Simplicity and functionality\", \"Use of light to enhance space\"]\n    },\n    \"next_steps\": \"Could you share more about the lighting conditions in the room (natural light, type and number of windows)? Also, let me know about any existing furniture you might want to incorporate.\"\n  },\n  \"metadata\": {\n    \"agent_name\": \"Room Design Agent\",\n    \"timestamp\": \"2023-11-04T12:00:00Z\"\n  }\n}"
+}

@@ -1,0 +1,36 @@
+{
+  "workflow_name": "RoomCraft AI",
+  "workflow_type": "single_agent",
+  "nodes": [
+    {
+      "id": "input_node",
+      "type": "Input",
+      "label": "User Input",
+      "nodeCategory": "input"
+    },
+    {
+      "id": "room_design_agent",
+      "type": "Agent",
+      "label": "Room Design Agent",
+      "nodeCategory": "agent",
+      "agent_id": "698836b220be1079ff146ee8",
+      "agent_name": "Room Design Agent"
+    },
+    {
+      "id": "output_node",
+      "type": "Output",
+      "label": "Design Response",
+      "nodeCategory": "end"
+    }
+  ],
+  "edges": [
+    {
+      "source": "input_node",
+      "target": "room_design_agent"
+    },
+    {
+      "source": "room_design_agent",
+      "target": "output_node"
+    }
+  ]
+}

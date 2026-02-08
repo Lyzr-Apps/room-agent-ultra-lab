@@ -1,0 +1,106 @@
+{
+  "agent_name": "Room Design Agent",
+  "agent_id": "698836b220be1079ff146ee8",
+  "agent_purpose": "interior_design_consultation",
+  "description": "Schema for Room Design Agent responses including conversational messages, structured design recommendations (color palettes, furniture, layout, decor), and conversation flow guidance",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "message": "string",
+      "design_recommendations": {
+        "color_palette": [
+          "string"
+        ],
+        "furniture_suggestions": [
+          "string"
+        ],
+        "layout_tips": [
+          "string"
+        ],
+        "decor_items": [
+          "string"
+        ],
+        "key_principles": [
+          "string"
+        ]
+      },
+      "next_steps": "string"
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "message": "Great! Let's transform your living room into a bright and open modern minimalist space.",
+      "design_recommendations": {
+        "color_palette": [
+          "White",
+          "Light Gray",
+          "Pale Blue"
+        ],
+        "furniture_suggestions": [
+          "Low-profile sofa",
+          "Glass coffee table"
+        ],
+        "layout_tips": [
+          "Place sofa against the longest wall to open up space",
+          "Use a large mirror to reflect light and create depth"
+        ],
+        "decor_items": [
+          "Geometric rug",
+          "Wall-mounted shelves"
+        ],
+        "key_principles": [
+          "Simplicity and functionality",
+          "Use of light to enhance space"
+        ]
+      },
+      "next_steps": "Could you share more about the lighting conditions in the room (natural light, type and number of windows)? Also, let me know about any existing furniture you might want to incorporate."
+    },
+    "metadata": {
+      "agent_name": "Room Design Agent",
+      "timestamp": "2023-11-04T12:00:00Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-02-08T07:10:40.322251",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "message": "Great! Let's transform your living room into a bright and open modern minimalist space.",
+      "design_recommendations": {
+        "color_palette": [
+          "White",
+          "Light Gray",
+          "Pale Blue"
+        ],
+        "furniture_suggestions": [
+          "Low-profile sofa",
+          "Glass coffee table"
+        ],
+        "layout_tips": [
+          "Place sofa against the longest wall to open up space",
+          "Use a large mirror to reflect light and create depth"
+        ],
+        "decor_items": [
+          "Geometric rug",
+          "Wall-mounted shelves"
+        ],
+        "key_principles": [
+          "Simplicity and functionality",
+          "Use of light to enhance space"
+        ]
+      },
+      "next_steps": "Could you share more about the lighting conditions in the room (natural light, type and number of windows)? Also, let me know about any existing furniture you might want to incorporate."
+    },
+    "metadata": {
+      "agent_name": "Room Design Agent",
+      "timestamp": "2023-11-04T12:00:00Z"
+    }
+  },
+  "test_passed": true
+}

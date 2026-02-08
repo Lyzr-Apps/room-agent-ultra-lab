@@ -1,0 +1,24 @@
+{
+  "workflow_name": "RoomCraft AI",
+  "workflow_type": "single_agent",
+  "created_at": "2026-02-08",
+  "agents": [
+    {
+      "agent_id": "698836b220be1079ff146ee8",
+      "agent_name": "Room Design Agent",
+      "agent_type": "single",
+      "node_id": "room_design_agent",
+      "description": "Engages users in personalized interior design consultations, asks about room dimensions, style preferences, budget constraints, and existing furniture, then provides tailored recommendations for color palettes, furniture arrangements, decor items, and design principles",
+      "provider": "OpenAI",
+      "model": "gpt-4o",
+      "temperature": 0.7,
+      "top_p": 0.95,
+      "response_schema": "response_schemas/room_design_agent_response.json"
+    }
+  ],
+  "workflow_structure": {
+    "input_node": "input_node",
+    "primary_agent": "room_design_agent",
+    "output_node": "output_node"
+  }
+}
