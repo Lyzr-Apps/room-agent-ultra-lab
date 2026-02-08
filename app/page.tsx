@@ -453,8 +453,7 @@ export default function Home() {
                   backgroundColor: currentSessionId === session.id ? 'hsl(40 35% 98%)' : 'hsl(40 40% 99%)',
                   borderColor: 'hsl(35 25% 82%)',
                   borderRadius: '0.5rem',
-                  borderWidth: '1px',
-                  ringColor: currentSessionId === session.id ? 'hsl(25 55% 40%)' : undefined
+                  borderWidth: '1px'
                 }}
               >
                 <CardContent className="p-3">
@@ -887,8 +886,7 @@ export default function Home() {
                     borderColor: 'hsl(35 20% 75%)',
                     border: '1px solid',
                     borderRadius: '0.5rem',
-                    lineHeight: '1.65',
-                    ringColor: 'hsl(25 55% 40%)'
+                    lineHeight: '1.65'
                   }}
                 />
                 <Button
